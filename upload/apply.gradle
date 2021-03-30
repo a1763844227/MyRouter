@@ -1,0 +1,56 @@
+    apply plugin: 'maven'
+    sourceCompatibility = 1.8
+
+
+    def mavenUrl="http://localhost:8081/repository/maven-releases/"
+    def POM_VERSION='1.0.1-SNAPSHOT'
+    def artifactId=upArtifactId//项目名称id
+    def groupId='com.jh.response'  //项目组id
+    def POM_PACKAGING='aar'
+    def POM_DESCRIPTION='mocklib for Android'
+    def NEXUS_USERNAME='admin'   //用户名
+    def NEXUS_PASSWORD='jh269646'  //密码
+//    def NEXUS_REPOSITORY_URL='http://localhost:8081/repository/maven-snapshots/'  //repository的URL
+    def NEXUS_REPOSITORY_URL='http://localhost:8081/repository/jh/'
+//    task androidSourcesJar(type: Jar) {
+//        classifier = 'sources'//分类器，区分jar
+//        from android.sourceSets.main.java.srcDirs
+//    }
+
+
+
+//上传到nexus
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: mavenUrl) {
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }
+            snapshotRepository(url: NEXUS_REPOSITORY_URL) {
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+
+            }
+
+            pom.whenConfigured { pom ->
+                pom.dependencies.forEach { dep ->
+                    if (dep.getVersion() == 'unspecified') {
+                        println("--modify the dependenies module in pom.xml--->>" + dep.getArtifactId())
+                        dep.setGroupId(groupId)
+                        dep.setVersion(POM_VERSION)
+                    }
+
+                }
+            }
+
+            println "AAAAA$POM_VERSION  $artifactId"
+            pom.version = POM_VERSION
+            pom.artifactId = artifactId
+            pom.groupId = groupId
+            pom.packaging="aar"
+        }
+
+
+    }
+
+
+}
