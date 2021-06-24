@@ -1,0 +1,41 @@
+plugins {
+    id 'java-library'
+}
+apply plugin :'groovy'
+apply plugin: 'maven'
+
+dependencies{
+    implementation localGroovy()
+    implementation gradleApi()
+    implementation 'com.android.tools.build:gradle:3.2.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+repositories {
+    mavenCentral()
+}
+
+def group='com.jh.plugins'
+def version='1.0.1'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //提交到远程服务器：
+//             repository(url: "http://localhost:8081/repository/maven-releases/") {
+//                authentication(userName: "admin", password: "jh269646")
+            repository(url: uri('../repo'))
+
+//             }
+            //本地的Maven地址设置为D:/repos
+//            repository(url: uri('D:/repos'))
+
+            pom.version = version
+            pom.groupId = group
+        }
+    }
+}

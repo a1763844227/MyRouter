@@ -4,3 +4,4 @@ include ':other'
 include ':router'
 
 include ':app', ':procress', ':annotation'
+include ':plugin'

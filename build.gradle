@@ -5,6 +5,8 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven{url uri('./repo')}
+
         maven {
             credentials {
                 username 'admin'
@@ -15,6 +17,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.jh.plugins:plugin:1.0.1'
 
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -26,6 +29,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven{url uri('./repo')}
+
         maven {
             credentials {
                 username 'admin'
